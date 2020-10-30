@@ -2,50 +2,103 @@ package view;
 
 import model.StackList;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     static StackList<String> stackList = new StackList<>();
     static Scanner input = new Scanner(System.in);
+    static String vet;
 
     public static void main(String[] args) {
-        main();
+        Initializable();
     }
-    public static void main(){
-        int confirmation = -1;
-        do {
-            try{
-                String vet = "Este et# um teste para o ET, o extraterrestre\n" +
-                        "em Java.*Acabamos de testar a capacidade de o\n" +
-                        "ET saltar de linha, utilizando seus poderes\n" +
-                        "extras (cuidado, pois agora vamos estourar a\n" +
-                        "capacidade máxima da linha de impressão, que é\n" +
-                        "de 70 caracteres.)*O k#cut#rso dh#e\n" +
-                        "Estruturas de Dados et# h#um cuu#rsh#o #x# x?\n" +
-                        "*!#?!#+.* Como et# bom n#nt#ao### r#ess#tt#ar\n" +
-                        "mb#aa#triz#cull#ado nn#x#ele!\\ Sera que este\n" +
-                        "funciona\\\\\\? O sinal? não### deve ficar! ~";
-                for(int i = 0; i < vet.length(); i++){
-                    char c = vet.charAt(i);
-                    if(c == '#')
-                        stackList.pop();
-                    else if(c == '*')
-                        stackList.add("\n");
-                    else if(c == '~') {
-                        System.out.println(stackList.toString());
-                        confirmation = 0;
-                    } else
-                        stackList.add(c+"");
-                }
-                confirmation = input.nextInt();
-                if(confirmation == 0)
-                    System.out.println(stackList.toString());
+
+    public static void Initializable(){
+            try {
+                workingFile();
+                options();
             } catch(InputMismatchException e){
-                System.out.println("Input invalid.");
+                System.out.println("Entrada inválida..");
             } catch(NullPointerException e){
-                System.out.println("List is null");
+                System.out.println("Lista vazia.");
             }
-        } while(confirmation != 0);
+    }
+
+    public static void workingFile(){
+        vet = readArchive();
+        if(vet != null) {
+            for (int i = 0; i < vet.length(); i++) {
+                char c = vet.charAt(i);
+                if (c == '#')
+                    stackList.pop();
+                else if (c == '*')
+                    stackList.add("\n");
+                else if (c == '~') {
+                    i = vet.length();
+                } else
+                    stackList.add(c + "");
+            }
+        }
+    }
+
+    public static String readArchive(){
+        try {
+                System.out.print("\tInforme o nome de arquivo texto: ");
+                String nome = input.next();
+                FileReader arq = new FileReader(nome);
+                BufferedReader lerArq = new BufferedReader(arq);
+                String linha = lerArq.readLine(); // lê a primeira linha
+                arq.close();
+                if (linha != null) {
+                    return linha;
+                }
+        } catch (IOException e) {
+            System.err.printf("\tErro na abertura do arquivo: %s.\n", e.getMessage());
+        }
+        return null;
+    }
+
+    public static void options(){
+        int option;
+        try {
+            do {
+                System.out.println("\t\t\t[1] Salvar arquivo.");
+                System.out.println("\t\t\t[2] Imprimir arquivo no console.");
+                System.out.println("\t\t\t[3] Ler um novo arquivo.");
+                System.out.println("\t\t\t[0] Sair do programa.");
+                System.out.print("\tOpção: ");
+                option = input.nextInt();
+                switch (option){
+                    case 1:
+                        saveFile();
+                        break;
+                    case 2:
+                        printArchive();
+                        break;
+                    case 3:
+                        Initializable();
+                        break;
+                    case 4:
+                        System.out.println("Finalizando aplicação.");
+                        break;
+                    default:
+                        System.out.println("Opção não identificada.");
+                }
+            } while(option != 0);
+        } catch(InputMismatchException e){
+            System.out.println("Opção inválida..");
+        }
+    }
+
+    private static void printArchive() {
+        System.out.println("\n" + stackList.toString() + "\n");
+    }
+
+    private static void saveFile() {
     }
 }
+

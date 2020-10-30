@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Stack;
+
 public class StackList<T> {
 
     public class Head{
@@ -26,9 +28,28 @@ public class StackList<T> {
         if(isNull()){
             throw new NullPointerException("List is null");
         } else {
-            T aux = top.item;
             top = top.prox;
             size --;
+        }
+    }
+
+    public void removeLine(){
+        if(isNull()){
+            throw new NullPointerException("List is null");
+        } else {
+            Head aux = top;
+            int cont = 0;
+            String verified, verified1 = "";
+            while(cont < this.size){
+                if(aux.item.equals("\n")){
+                    verified = "ok";
+                }
+                aux = aux.prox;
+                if(aux.item.equals("\n")){
+                    verified1 = "ok";
+                }
+                cont++;
+            }
         }
     }
 
@@ -41,7 +62,7 @@ public class StackList<T> {
         StringBuilder sb = new StringBuilder();
         int cont = 0;
         while(cont < this.size){
-             sb.append(aux.item).append(" ");
+             sb.append(aux.item);
              aux = aux.prox;
              cont++;
          }
