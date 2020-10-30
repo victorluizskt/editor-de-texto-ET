@@ -2,10 +2,9 @@ package view;
 
 import model.StackList;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -66,15 +65,19 @@ public class Main {
         int option;
         try {
             do {
+                System.out.println("\t\tMenu: ");
                 System.out.println("\t\t\t[1] Salvar arquivo.");
                 System.out.println("\t\t\t[2] Imprimir arquivo no console.");
                 System.out.println("\t\t\t[3] Ler um novo arquivo.");
                 System.out.println("\t\t\t[0] Sair do programa.");
-                System.out.print("\tOpção: ");
+                System.out.print("\t\tOpção: ");
                 option = input.nextInt();
                 switch (option){
                     case 1:
-                        saveFile();
+                        System.out.println("\n\tQual nome deseja dar para o arquivo? (Não precisa digitar a extensão.)");
+                        System.out.print("\tNome: ");
+                        String nameArchive = input.next();
+                        saveFile(nameArchive + ".txt");
                         break;
                     case 2:
                         printArchive();
@@ -82,7 +85,7 @@ public class Main {
                     case 3:
                         Initializable();
                         break;
-                    case 4:
+                    case 0:
                         System.out.println("Finalizando aplicação.");
                         break;
                     default:
@@ -95,10 +98,32 @@ public class Main {
     }
 
     private static void printArchive() {
-        System.out.println("\n" + stackList.toString() + "\n");
+        System.out.println("\n" + Objects.requireNonNull(revertText()).toString() + "\n");
     }
 
-    private static void saveFile() {
+    private static void saveFile(String path){
+        try {
+            BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
+            String text = revertText() + ".txt";
+            buffWrite.append(text).append("\n");
+            buffWrite.close();
+            System.out.println("\tArquivo salvo com sucesso.\n");
+        } catch(IOException e){
+            System.out.println("Impossivel gravar arquivo, motivo: " + e.getMessage());
+        }
+    }
+
+    private static StackList<String> revertText(){
+        String list = stackList.toString();
+        StackList<String> stackList1 = new StackList<>();
+        if(list != null){
+            for (int i = 0; i < list.length(); i++) {
+                char c = list.charAt(i);
+                stackList1.add(c+"");
+            }
+            return stackList1;
+        }
+        return null;
     }
 }
 
