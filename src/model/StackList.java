@@ -6,10 +6,6 @@ package model;
  * @author Victor Luiz Gonçalves
  * @date   03/11/2020
  * @since  03/11/2020
- *
- */
-
-/**
  *  Classe simples que implementa uma pilha, para as funcionalidades da Main.
  */
 
