@@ -53,17 +53,17 @@ public class Main {
                 if (c == '#')
                     stackList.pop();
                 else if (c == '*') {
-                    char w = '&';
                     stackList.add("\n");
-                    stackList.add(w + ""); // Adiciona o E comercial para que na remoção dos \\ eu tenha um ponto de parada.
                 }else if (c == '~') {
                     i = vet.length(); // Se ouver ~ i = vet.length para finalizar a leitura.
                 }else if (c == '\\') {
                     String y;
                         do {
                              y = stackList.pop();
-                        } while (!y.equals("&"));
-                    }
+                             if(y.equals("\n"))
+                                 stackList.add("\n"); // Se meu y = \n logo tenho que adicionar outro \n para que a próxima linha não seja prejudicada.
+                        } while (!y.equals("\n"));
+               }
                 else
                     stackList.add(c + "");
             }
