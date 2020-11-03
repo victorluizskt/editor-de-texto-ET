@@ -16,7 +16,7 @@ public class Main {
         Initializable();
     }
 
-    public static void Initializable(){
+    private static void Initializable(){
             try {
                 workingFile();
                 options();
@@ -27,24 +27,32 @@ public class Main {
             }
     }
 
-    public static void workingFile(){
+    private static void workingFile(){
         vet = readArchive();
         if(vet != null) {
             for (int i = 0; i < vet.length(); i++) {
                 char c = vet.charAt(i);
                 if (c == '#')
                     stackList.pop();
-                else if (c == '*')
+                else if (c == '*') {
+                    char w = '&';
                     stackList.add("\n");
-                else if (c == '~') {
+                    stackList.add(w + "");
+                }else if (c == '~') {
                     i = vet.length();
-                } else
+                }else if (c == '\\') {
+                    String y;
+                        do {
+                             y = stackList.pop();
+                        } while (!y.equals("&"));
+                    }
+                else
                     stackList.add(c + "");
             }
         }
     }
 
-    public static String readArchive(){
+    private static String readArchive(){
         try {
                 System.out.print("\tInforme o nome de arquivo texto: ");
                 String nome = input.next();
@@ -61,7 +69,7 @@ public class Main {
         return null;
     }
 
-    public static void options(){
+    private static void options(){
         int option;
         try {
             do {
@@ -104,7 +112,7 @@ public class Main {
     private static void saveFile(String path){
         try {
             BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
-            String text = revertText() + ".txt";
+            String text = revertText() + "";
             buffWrite.append(text).append("\n");
             buffWrite.close();
             System.out.println("\tArquivo salvo com sucesso.\n");
