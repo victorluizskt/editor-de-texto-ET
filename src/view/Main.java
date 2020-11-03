@@ -1,5 +1,16 @@
 package view;
 
+/*
+ *
+ * @brief Classe Main
+ * @author Victor Luiz Gonçalves
+ * @date   03/11/2020
+ * @since  03/11/2020
+ *
+ *  O texto TXT deve ser escrito em apenas 1 LINHA(et.txt é um exemplo de como o arquivo deve ser escrito)
+ * para que o programa não considere '\n' como caracter.
+ */
+
 import model.StackList;
 
 import java.io.*;
@@ -16,6 +27,10 @@ public class Main {
         Initializable();
     }
 
+
+    /**
+     * Metódo responsável por iniciar a aplicação na main.
+     */
     private static void Initializable(){
             try {
                 workingFile();
@@ -27,6 +42,9 @@ public class Main {
             }
     }
 
+    /**
+     * Metódo responsável pela leitura e salvamento do arquivo, já de maneira légivel sem caracteres especiais.
+     */
     private static void workingFile(){
         vet = readArchive();
         if(vet != null) {
@@ -37,9 +55,9 @@ public class Main {
                 else if (c == '*') {
                     char w = '&';
                     stackList.add("\n");
-                    stackList.add(w + "");
+                    stackList.add(w + ""); // Adiciona o E comercial para que na remoção dos \\ eu tenha um ponto de parada.
                 }else if (c == '~') {
-                    i = vet.length();
+                    i = vet.length(); // Se ouver ~ i = vet.length para finalizar a leitura.
                 }else if (c == '\\') {
                     String y;
                         do {
@@ -52,6 +70,9 @@ public class Main {
         }
     }
 
+    /**
+     * Leitura simples de arquivo usando FileReader/BufferedReader
+     */
     private static String readArchive(){
         try {
                 System.out.print("\tInforme o nome de arquivo texto: ");
@@ -69,6 +90,9 @@ public class Main {
         return null;
     }
 
+    /**
+     *  Menu de opções do user.
+     */
     private static void options(){
         int option;
         try {
@@ -85,7 +109,7 @@ public class Main {
                         System.out.println("\n\tQual nome deseja dar para o arquivo? (Não precisa digitar a extensão.)");
                         System.out.print("\tNome: ");
                         String nameArchive = input.next();
-                        saveFile(nameArchive + ".txt");
+                        saveFile(nameArchive + ".txt"); // Usa o .txt para salvar a extensão do arquivo.
                         break;
                     case 2:
                         printArchive();
@@ -105,10 +129,17 @@ public class Main {
         }
     }
 
+    /**
+     * Função de impressão verificando se a mesma não é nula com Objects.requireNonNull
+     */
     private static void printArchive() {
         System.out.println("\n" + Objects.requireNonNull(revertText()).toString() + "\n");
     }
 
+    /**
+     * Método que salva escreve os arquivos em um txt na raiz do projeto.
+     * @param path Texto que será escrito no txt.
+     */
     private static void saveFile(String path){
         try {
             BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
@@ -121,6 +152,9 @@ public class Main {
         }
     }
 
+    /**
+     * Método responsável por reverter o texto, sendo assim de maneira que possamos ler.
+     */
     private static StackList<String> revertText(){
         String list = stackList.toString();
         StackList<String> stackList1 = new StackList<>();

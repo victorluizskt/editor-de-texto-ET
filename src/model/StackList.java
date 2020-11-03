@@ -1,6 +1,17 @@
 package model;
 
-import java.util.Stack;
+/*
+ *
+ * @brief Classe StackList
+ * @author Victor Luiz Gonçalves
+ * @date   03/11/2020
+ * @since  03/11/2020
+ *
+ */
+
+/**
+ *  Classe simples que implementa uma pilha, para as funcionalidades da Main.
+ */
 
 public class StackList<T> {
 
@@ -24,36 +35,18 @@ public class StackList<T> {
         }
     }
 
-    public void pop(){
+    public T pop(){
         if(isNull()){
             throw new NullPointerException("List is null");
         } else {
+            T aux = top.item;
             top = top.prox;
-            size --;
+            size--;
+            return aux;
         }
     }
 
-    public void removeLine(){
-        if(isNull()){
-            throw new NullPointerException("List is null");
-        } else {
-            Head aux = top;
-            int cont = 0;
-            String verified, verified1 = "";
-            while(cont < this.size){
-                if(aux.item.equals("\n")){
-                    verified = "ok";
-                }
-                aux = aux.prox;
-                if(aux.item.equals("\n")){
-                    verified1 = "ok";
-                }
-                cont++;
-            }
-        }
-    }
-
-    private boolean isNull() {
+    public boolean isNull() {
         return top == null;
     }
 
